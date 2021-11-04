@@ -1,0 +1,8 @@
+{
+  "name": "type_chain",
+  "version": "1.0.0",
+  "description": "Learing Typescript by making a Blockchain with this project",
+  "main": "index.js",
+  "author": "JIN",
+  "license": "MIT"
+}
