@@ -68,17 +68,43 @@ const createNewBlock = (data: string): Block => {
     data,
     newTimeStamp
   );
+  addBlock(newBlock);
   return newBlock;
 };
 
+const getHashforBlock = (aBlock: Block): string =>
+  Block.calculateBlockHash(
+    aBlock.index,
+    aBlock.previousHash,
+    aBlock.timestamp,
+    aBlock.data
+  );
+
 const isBlockVaild = (candidateBlock: Block, previousBlock: Block): boolean => {
   if (!Block.validateStructure(candidateBlock)) {
-    return false;
+    // 블록이 유효하다면 구조를 검증함
+    return false; // 유효하지 않으면 false
   } else if (previousBlock.index + 1 !== candidateBlock.index) {
-    return false;
+    return false; // 이전 인덱스 + 1이 candidate block index와 같지 않다면 false
   } else if (previousBlock.hash !== candidateBlock.previousHash) {
     return false;
+  } else if (getHashforBlock(candidateBlock) !== candidateBlock.hash) {
+    return false;
+  } else {
+    return true;
   }
 };
+
+const addBlock = (candidateBlock: Block): void => {
+  if (isBlockVaild(candidateBlock, getLastestBlock())) {
+    blockchain.push(candidateBlock);
+  }
+};
+
+createNewBlock("second block");
+createNewBlock("third block");
+createNewBlock("forth block");
+
+console.log(blockchain);
 
 export {};
